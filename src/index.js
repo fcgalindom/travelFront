@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW1i79_hM1aiDesGHfQ8AxVFHCz3Rork8"></script>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
