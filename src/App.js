@@ -2,7 +2,7 @@
 import './App.css';
 import MapContainer  from '../src/components/Consumirclima'
 import SelectComponent  from './components/Busqueda';
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import Consumirtapi from './components/Consumirtapi';
 function App() {
   const [selectedValue, setSelectedValue] = useState('');
@@ -11,6 +11,7 @@ function App() {
     setSelectedValue(event.target.value);
     console.log("prueba", selectedValue)
   };
+ 
 
   const options = [
     

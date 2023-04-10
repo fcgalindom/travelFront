@@ -1,30 +1,26 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useState, useEffect } from "react";
 
 
 
 
-class Consumirtapi  extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // Puedes acceder a las props en el constructor
-    console.log(props);
-  }
+const Consumirtapi = (props) => {
+ 
  
 
-    ciudad = "Orlando";
-    state = {
-      datos: []
-    }
+    const [datos, setDatos] = useState({});
     
-    componentDidMount() {
-       const { ciudad } = this.props;
-       console.log(ciudad)
+   
+    const { ciudad} = props;
+    console.log("ciudad",ciudad)
+    const obtenerDatosDeAPI = () => {
+      
+      console.log("respuesta",ciudad)
       axios.get('http://api.openweathermap.org/data/2.5/weather?q=' + ciudad+',us&APPID=e9223662a011cdede4decbbe8191f1cb')
         .then(response => {
-          this.setState({ datos: response.data });
-          console.log(this.state.datos)
+         
+          setDatos(response.data );
+          console.log("data",datos)
         })
         .catch(error => {
           
@@ -33,20 +29,33 @@ class Consumirtapi  extends React.Component {
         });
     }
 
+  
+  
+    useEffect(() => {
+      // Llama a la función para obtener los datos de la API cuando el componente se monta y cada vez que ocurre un cambio en el estado
+     
+      window.addEventListener('change', obtenerDatosDeAPI);
+
+    // Devuelve una función de limpieza para desuscribirte del evento cuando el componente se desmonte o cuando el efecto se actualice
+    return () => {
+      window.removeEventListener('change', obtenerDatosDeAPI);
+    };
+    }, [ciudad]);
+
 
     
-    render() {
+
       
       return (
         <div>
-              <p>Name: {this.state.datos.main && this.state.datos.name} </p>
-              <p>Temperature: {this.state.datos.main && this.state.datos.main.temp} </p>
-              <p>Humeadad: {this.state.datos.main && this.state.datos.main.humidity} </p>
+              <p>Name: {datos.main && datos.name} </p>
+              <p>Temperature: {datos.main && datos.main.temp} </p>
+              <p>Humeadad: {datos.main && datos.main.humidity} </p>
         
             
          
         </div>
       );
-    }
+
   }
 export default Consumirtapi;
