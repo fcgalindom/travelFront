@@ -1,37 +1,38 @@
 
 import './App.css';
-import MapContainer  from '../src/components/Consumirclima'
-import SelectComponent  from './components/Busqueda';
-import React, { useState ,useEffect } from 'react';
-import Consumirtapi from './components/Consumirtapi';
-import axios from 'axios';
+import Controlador from './controlador/Controlador';
+import Historial from './components/Historial';
+import React from 'react';
+
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+
 function App() {
-  const [selectedValue, setSelectedValue] = useState('');
-  const nuevaUbicacion = { lat: 40.7128, lng: -74.0060 };
-
-  const handleSelectChange = (event) => {
-    setSelectedValue(event.target.value);
-    console.log("prueba", selectedValue)
-   
-  };
-  
-
-  const options = [
-    
-    { value: 'Orlando', label: 'Orlando' },
-    { value: 'New York', label: 'New York' },
-    { value: 'Miami', label: 'Miami' }
-  ];
-  
   return (
-    <div className="App"  style={{ width: '100vw', height: '100vh' }}>
+  <div className="App"  style={{ width: '100vw', height: '100vh' }}>
+      <Router>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <a className="navbar-brand" href="/">Inicio</a>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link to="/" className="nav-link">Mapas</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/historial" className="nav-link">Historial</Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
-      <h1>{selectedValue}</h1>
-      <Consumirtapi ciudad={selectedValue}/>
-       <SelectComponent options={options} onChange={handleSelectChange} />
-      <MapContainer ciudad={selectedValue} />
-     
-    </div>
+      <Routes>
+        <Route path="/" element={<Controlador />} />
+        <Route path="/historial" element={<Historial />} />
+      </Routes>
+    </Router>
+  </div>
   );
 }
 

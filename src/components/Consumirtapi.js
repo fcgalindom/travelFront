@@ -76,13 +76,25 @@ const Consumirtapi = (props) => {
       
       return (
          
-        <div>
-              <p>Name: {datos.main && datos.name} </p>
-              <p>Temperature: {datos.main && datos.main.temp} </p>
-              <p>Humeadad: {datos.main && datos.main.humidity} </p>
+        <div className="container-fluid">
+          <table className="table">
+        <thead>
+          <tr>
+  
+            <th>Nombre</th>
+            <th>Temperatura</th>
+            <th>Humedad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
         
-            
-         
+            <td>{datos.main && datos.name} </td>
+            <td>{datos.main && datos.main.temp}</td>
+            <td>{datos.main && datos.main.humidity}</td>
+          </tr>
+        </tbody>
+      </table>   
         </div>
         
       );
