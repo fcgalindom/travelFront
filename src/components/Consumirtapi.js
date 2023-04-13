@@ -9,10 +9,16 @@ const Consumirtapi = (props) => {
  
 
     const [datos, setDatos] = useState({});
+    const [nuevosdatos, Setnuevosdatos] =useState( {
+      nombre: '',
+      temperatura: 0,
+      humedad:0
+      // Otros datos que deseas enviar en la solicitud POST
+    });
     
    
     const { ciudad} = props;
-    console.log("ciudad",ciudad)
+    
     const obtenerDatosDeAPI = () => {
       
       console.log("respuesta",ciudad)
@@ -20,7 +26,12 @@ const Consumirtapi = (props) => {
         .then(response => {
          
           setDatos(response.data );
-          console.log("data",datos)
+          
+          const datass = {nombre: response.data.name,
+            temperatura: response.data.main.temp,
+            humedad: response.data.main.humidity}
+          crearDatos(datass);
+         
         })
         .catch(error => {
           
@@ -28,6 +39,22 @@ const Consumirtapi = (props) => {
 
         });
     }
+    const crearDatos = async (nuevosDatos) => {
+      try {
+        // Realizar una solicitud POST a la URL deseada
+        const response = await axios.post('http://127.0.0.1:8000/api/crearhistorial', nuevosDatos);
+    
+        // Manejar la respuesta del servidor
+        console.log('Respuesta del servidor:', response.data);
+    
+        // Puedes hacer algo con la respuesta del servidor aquí, por ejemplo, actualizar el estado de tu componente
+        // o realizar alguna otra acción en tu aplicación
+    
+      } catch (error) {
+        // Manejar errores de la solicitud
+        console.error('Error al crear datos:', error);
+      }
+    };
 
   
   
@@ -35,18 +62,20 @@ const Consumirtapi = (props) => {
       // Llama a la función para obtener los datos de la API cuando el componente se monta y cada vez que ocurre un cambio en el estado
      
       window.addEventListener('change', obtenerDatosDeAPI);
-
+      
     // Devuelve una función de limpieza para desuscribirte del evento cuando el componente se desmonte o cuando el efecto se actualice
     return () => {
       window.removeEventListener('change', obtenerDatosDeAPI);
+
     };
     }, [ciudad]);
-
+    
 
     
 
       
       return (
+         
         <div>
               <p>Name: {datos.main && datos.name} </p>
               <p>Temperature: {datos.main && datos.main.temp} </p>
@@ -55,6 +84,7 @@ const Consumirtapi = (props) => {
             
          
         </div>
+        
       );
 
   }
